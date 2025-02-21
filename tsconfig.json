@@ -33,6 +33,10 @@
     "rootDir": "./",
     "outDir": "./dist",
 
+    /* JSX and React Support */
+    "jsx": "react-jsx",  // ✅ Enables JSX support for React 17+
+    "types": ["node", "react", "react-dom"],
+
     /* Types */
     "typeRoots": ["./node_modules/@types", "./server/src/types"]
   },

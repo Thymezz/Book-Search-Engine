@@ -6,7 +6,11 @@ import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
 
-const SignupForm = () => {
+interface SignupFormProps {
+  handleModalClose: () => void;
+}
+
+const SignupForm: React.FC<SignupFormProps> = ({ handleModalClose }) => {
   const [userFormData, setUserFormData] = useState<User>({
     username: '',
     email: '',
@@ -19,6 +23,9 @@ const SignupForm = () => {
 
   // Using Apollo's useMutation Hook
   const [addUser, { error }] = useMutation(ADD_USER);
+  if (error) {
+    console.error("Signup error:", error.message);
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
