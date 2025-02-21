@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import db from './config/connection.js';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer} from 'apollo-server-express';
 import { authMiddleware } from './services/auth.js';
 import typeDefs from './schemas/typeDef.js';
 import resolvers from './schemas/resolvers.js';
@@ -34,7 +34,7 @@ const server = new ApolloServer({
 
 async function startServer() {
   await server.start();
-  server.applyMiddleware({ app: app as Application, path: '/graphql' });
+  server.applyMiddleware({ app, path: '/graphql' });
 
 
   app.use(express.urlencoded({ extended: true }));

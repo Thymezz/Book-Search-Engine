@@ -1,23 +1,18 @@
 {
   "compilerOptions": {
-    /* Language and Environment */
     "target": "ES2020",
     "lib": ["ES2020", "DOM"],
-
-    /* Modules */
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
 
     /* JavaScript Support */
     "allowJs": true,
     "checkJs": true,
-
-    /* Interop Constraints */
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
 
     /* Type Checking */
     "strict": true,
@@ -29,15 +24,15 @@
     "noImplicitOverride": true,
     "useUnknownInCatchVariables": true,
 
+    /* JSX Support */
+    "jsx": "react-jsx",  // Enables JSX for React 17+ using the new JSX transform
+
     /* Output Directories */
     "rootDir": "./",
     "outDir": "./dist",
 
-    /* JSX and React Support */
-    "jsx": "react-jsx",  // ✅ Enables JSX support for React 17+
-    "types": ["node", "react", "react-dom"],
-
     /* Types */
+    "types": ["node", "react", "react-dom"],
     "typeRoots": ["./node_modules/@types", "./server/src/types"]
   },
   "include": ["client/src", "server/src"],

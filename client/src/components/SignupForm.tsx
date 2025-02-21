@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useMutation } from '@apollo/client';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { ADD_USER } from '../graphql/mutations';
@@ -32,17 +32,28 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleModalClose }) => {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     try {
-      const { data } = await addUser({
+      const response = await addUser({
         variables: { ...userFormData },
       });
 
-      Auth.login(data.addUser.token);
+      if (!response.data) {
+        throw new Error('Something went wrong!');
+      }
+
+      Auth.login(response.data.addUser.token);
+      handleModalClose(); // Close the modal after successful signup
     } catch (err) {
-      console.error('Signup Error:', err);
+      console.error(err);
       setShowAlert(true);
     }
 
@@ -53,6 +64,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleModalClose }) => {
       savedBooks: [],
     });
   };
+
 
   return (
     <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
