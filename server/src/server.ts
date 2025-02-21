@@ -14,6 +14,7 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 3001;
 
+
 // Fix for import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -33,7 +34,8 @@ const server = new ApolloServer({
 
 async function startServer() {
   await server.start();
-  server.applyMiddleware({ app, path: '/graphql' }); // ✅ Fix Type Error
+  server.applyMiddleware({ app: app as Application, path: '/graphql' });
+
 
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
