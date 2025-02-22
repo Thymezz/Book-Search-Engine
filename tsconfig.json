@@ -24,7 +24,7 @@
     "outDir": "./dist",
     "typeRoots": ["./node_modules/@types"],
     "types": ["node", "react", "react-dom"]
-    },
+  },
   "include": ["client/src", "server/src"],
   "exclude": ["node_modules", "dist"]
 }

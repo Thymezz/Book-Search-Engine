@@ -4,7 +4,7 @@
   "description": "Google Books Search Application",
   "main": "server/src/server.ts",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node server/dist/server.js",
     "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
     "build": "tsc --build",
     "render-build": "npm run build && npm install --prefix client && npm run build --prefix client",
