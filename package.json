@@ -4,11 +4,11 @@
   "description": "Google Books Search Application",
   "main": "server/src/server.ts",
   "scripts": {
-    "start": "node server/dist/server.js",
+    "start": "node dist/server.js",
     "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
     "build": "tsc --build",
-    "render-build": "npm run build && npm install --prefix client && npm run build --prefix client",
-    "postinstall": "npm install @types/node @types/react @types/react-dom"
+    "render-build": "npm install --include=dev && npm run build && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
+    "postinstall": "npm install --include=dev @types/node @types/react @types/react-dom"
   },
   "dependencies": {
     "apollo-server-express": "^3.13.0",

@@ -3,7 +3,7 @@ services:
     name: book-search-engine-backend
     env: node
     buildCommand: |
-      npm install --legacy-peer-deps
+      npm install --include=dev
       npm run build
       npm install --prefix client --legacy-peer-deps
       npm run build --prefix client
