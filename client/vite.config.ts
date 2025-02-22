@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react';
 import polyfillNode from 'rollup-plugin-polyfill-node';
 import inject from '@rollup/plugin-inject';
 
+// https://vitejs.dev/config/
 export default defineConfig({
+  root: './client', // Set root directory to client folder
   plugins: [react()],
   resolve: {
     alias: {
@@ -13,7 +15,7 @@ export default defineConfig({
     },
   },
   define: {
-    global: 'globalThis', // Define global explicitly
+    global: 'globalThis',
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -23,8 +25,10 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist', // Ensure the output directory is set for Render
+    outDir: '../dist/client', // Ensure output folder is correctly set
+    emptyOutDir: true, // Automatically clears the output directory before building
     rollupOptions: {
+      input: './client/index.html', // Specify the entry point
       plugins: [
         polyfillNode(),
         inject({
