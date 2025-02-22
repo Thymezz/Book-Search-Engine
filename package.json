@@ -9,7 +9,7 @@
     "build": "tsc",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "render-build": "npm run build",
-    "postinstall": "npm install --legacy-peer-deps"
+    "postinstall": "npm install --include=dev"
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",
