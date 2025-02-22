@@ -1,12 +1,18 @@
 services:
   - type: web
-    name: book-search-engine
+    name: book-search-engine-backend
     env: node
     buildCommand: npm run build
     startCommand: npm start
     branch: main
     envVars:
       - key: MONGODB_URI
-        value: your_mongodb_connection_string
+        value: ${MONGODB_URI}
       - key: JWT_SECRET_KEY
-        value: your_jwt_secret_key
+        value: ${JWT_SECRET_KEY}
+  - type: web
+    name: book-search-engine-frontend
+    env: static
+    buildCommand: npm run build --prefix client
+    staticPublishPath: client/dist
+    branch: main

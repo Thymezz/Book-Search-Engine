@@ -1,7 +1,6 @@
 {
-    "watch": ["server/src"],
-    "ext": "ts,json",
-    "ignore": ["node_modules"],
-    "exec": "ts-node --loader ts-node/esm server/src/server.ts"
-  }
-  
+  "watch": ["server/src"],
+  "ext": "ts,json",
+  "ignore": ["node_modules"],
+  "exec": "ts-node --transpile-only server/src/server.ts"
+}
