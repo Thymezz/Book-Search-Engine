@@ -2,7 +2,12 @@ services:
   - type: web
     name: book-search-engine-backend
     env: node
-    buildCommand: npm install --include=dev && npm run build
+    buildCommand: |
+      npm install --legacy-peer-deps
+      npm install --prefix client --legacy-peer-deps
+      npm install --prefix server --legacy-peer-deps
+      npm run build
+      npm run build --prefix client
     startCommand: npm start
     branch: main
     envVars:
@@ -10,10 +15,10 @@ services:
         value: ${mongodb+srv://Thymezz:4Gh38fkcdFkKfU78@cluster0.mongodb.net/googlebooks?retryWrites=true&w=majority}
       - key: JWT_SECRET_KEY
         value: ${q}
+
   - type: web
     name: book-search-engine-frontend
     env: static
     buildCommand: npm install --prefix client --legacy-peer-deps && npm run build --prefix client
     staticPublishPath: client/dist
     branch: main
-
