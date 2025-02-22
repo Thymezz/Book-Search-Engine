@@ -3,8 +3,8 @@ services:
     name: book-search-engine-backend
     env: node
     buildCommand: |
-      NODE_ENV=development npm install
-      npm run render-build
+      npm install --include=dev
+      npm run build
     startCommand: npm start
     branch: main
     envVars:
@@ -19,7 +19,7 @@ services:
     name: book-search-engine-frontend
     env: static
     buildCommand: |
-      NODE_ENV=development npm install --prefix client
+      npm install --prefix client --include=dev
       npm run build --prefix client
     staticPublishPath: client/dist
     branch: main
