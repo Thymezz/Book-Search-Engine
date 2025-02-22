@@ -5,7 +5,7 @@ import inject from '@rollup/plugin-inject';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: './client', // Set root directory to client folder
+  root: './client',
   plugins: [react()],
   resolve: {
     alias: {
@@ -25,18 +25,10 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../dist/client', // Ensure output folder is correctly set
-    emptyOutDir: true, // Automatically clears the output directory before building
+    outDir: '../dist/client',
     rollupOptions: {
-      input: './client/index.html', // Specify the entry point
-      plugins: [
-        polyfillNode(),
-        inject({
-          global: ['globalThis', 'global'],
-          Buffer: ['buffer', 'Buffer'],
-          process: 'process/browser',
-        }),
-      ],
+      input: './client/index.html',
+      external: [], // Ensure no external packages are excluded from the build
     },
   },
 });
