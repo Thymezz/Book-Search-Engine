@@ -6,8 +6,8 @@
   "scripts": {
   "start": "node dist/server.js",
   "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
-  "build": "tsc",
-  "render-build": "npm install --legacy-peer-deps && npm install --prefix client --legacy-peer-deps && npm install --prefix server --legacy-peer-deps && npm run build && npm run build --prefix client",
+  "build": "tsc --build",
+  "render-build": "npm run build && npm install --prefix client --legacy-peer-deps && npm run build --prefix client && npm run build --prefix server",
   "postinstall": "npm install --include=dev @types/node @types/react @types/react-dom",
   "prepare": "npm install --save-dev @types/node @types/react @types/react-dom"
   },

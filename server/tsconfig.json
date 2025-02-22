@@ -1,15 +1,12 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
-    "target": "es2020",
-    "moduleResolution": "node",
     "rootDir": "src",
     "outDir": "dist",
+    "module": "commonjs",
+    "target": "es2020",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "strict": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
