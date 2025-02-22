@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
-    "build": "tsc -b",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+    "build": "tsc",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
+    "render-build": "npm run build"
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",
