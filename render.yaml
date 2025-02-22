@@ -7,9 +7,10 @@ services:
     branch: main
     envVars:
       - key: MONGODB_URI
-        value: ${MONGODB_URI}
+        value: mongodb+srv://Thymezz:4Gh38fkcdFkKfU78@cluster0.mongodb.net/googlebooks?retryWrites=true&w=majority
       - key: JWT_SECRET_KEY
-        value: ${JWT_SECRET_KEY}
+        value: q
+
   - type: web
     name: book-search-engine-frontend
     env: static
