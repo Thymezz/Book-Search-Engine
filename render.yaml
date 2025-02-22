@@ -2,7 +2,9 @@ services:
   - type: web
     name: book-search-engine-backend
     env: node
-    buildCommand: npm install --include=dev && npm run render-build
+    buildCommand: |
+      npm install --include=dev
+      npm run render-build
     startCommand: npm start
     branch: main
     envVars:
@@ -10,9 +12,14 @@ services:
         value: mongodb+srv://Thymezz:4Gh38fkcdFkKfU78@cluster0.mongodb.net/googlebooks?retryWrites=true&w=majority
       - key: JWT_SECRET_KEY
         value: q
+      - key: NODE_ENV
+        value: production
+
   - type: web
     name: book-search-engine-frontend
     env: static
-    buildCommand: npm install --include=dev && npm run build --prefix client
+    buildCommand: |
+      npm install --prefix client --include=dev
+      npm run build --prefix client
     staticPublishPath: client/dist
     branch: main
