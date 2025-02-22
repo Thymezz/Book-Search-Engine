@@ -2,7 +2,11 @@ services:
   - type: web
     name: book-search-engine-backend
     env: node
-    buildCommand: npm run render-build
+    buildCommand: |
+      npm install --legacy-peer-deps
+      npm run build
+      npm install --prefix client --legacy-peer-deps
+      npm run build --prefix client
     startCommand: npm run start
     branch: main
     envVars:
@@ -12,6 +16,7 @@ services:
         value: ${JWT_SECRET_KEY}
       - key: NODE_ENV
         value: production
+
   - type: web
     name: book-search-engine-frontend
     env: static
