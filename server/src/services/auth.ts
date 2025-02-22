@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-// Load environment variables first
+// Load environment variables
 dotenv.config();
-console.log("JWT_SECRET_KEY:", process.env.JWT_SECRET_KEY);
 
-// Now access the environment variables
 const secretKey = process.env.JWT_SECRET_KEY || '';
 
 interface JwtPayload {
@@ -14,6 +12,7 @@ interface JwtPayload {
   email: string;
 }
 
+// Middleware to authenticate requests
 export const authMiddleware = ({ req }: { req: any }) => {
   let token = req.body.token || req.query.token || req.headers.authorization;
 
@@ -35,10 +34,8 @@ export const authMiddleware = ({ req }: { req: any }) => {
   return req;
 };
 
+// Function to sign JWT tokens
 export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id };
-  console.log("Signing token with payload:", payload);
-  console.log("Using secret key:", secretKey);
-
   return jwt.sign(payload, secretKey, { expiresIn: '1h' });
 };

@@ -10,11 +10,21 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "useUnknownInCatchVariables": true,
     "rootDir": "./server/src",
     "outDir": "./dist/server",
     "typeRoots": ["./node_modules/@types"],
-    "types": ["node"]
+    "types": ["node", "react", "react-dom"]
   },
-  "include": ["server/src", "client/src"],
+  "include": ["server/src"],
   "exclude": ["node_modules", "dist"]
 }

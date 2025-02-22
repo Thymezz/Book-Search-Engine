@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "lib": ["DOM", "ES2020"],
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "jsx": "react-jsx",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "rootDir": "./client/src",
+      "outDir": "./dist/client",
+      "typeRoots": ["./node_modules/@types"],
+      "types": ["react", "react-dom"]
+    },
+    "include": ["client/src"],
+    "exclude": ["node_modules", "dist", "server"]
+  }

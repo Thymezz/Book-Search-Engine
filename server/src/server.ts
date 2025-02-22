@@ -10,25 +10,30 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import type { Application } from 'express';
 
+// Load environment variables
 dotenv.config();
+
+// Fix __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+// Enable CORS
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Use deployed frontend URL in production
   credentials: true
 }));
 
+// Set up Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware
 });
 
+// Start Apollo Server and apply middleware
 async function startServer() {
   await server.start();
   server.applyMiddleware({ app: app as Application, path: '/graphql' });
@@ -36,12 +41,15 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  app.use(express.static(path.join(__dirname, '../../client/dist')));
+  // Serve static files from the React build for Render deployment
+  app.use(express.static(path.resolve(__dirname, '../../client/dist')));
 
-  app.get('*', (_, res) => {
-    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+  // Catch-all route for React SPA
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../client/dist/index.html'));
   });
 
+  // Start the server
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);

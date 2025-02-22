@@ -3,36 +3,43 @@
   "version": "1.0.0",
   "description": "Google Books Search Application",
   "main": "server/src/server.ts",
+  "type": "module",
   "scripts": {
-    "start": "node dist/server.js",
-    "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
-    "build": "tsc --build",
-    "render-build": "npm install --include=dev && npm run build && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
-    "postinstall": "npm install --include=dev @types/node @types/react @types/react-dom @types/bcrypt @types/jsonwebtoken @types/react-router-dom @types/react-bootstrap @types/jwt-decode"
-  },
+  "start": "node dist/server/server.js",
+  "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
+  "build": "npm run build:server && npm run build:client",
+  "build:server": "tsc --project tsconfig.server.json",
+  "build:client": "tsc --project tsconfig.client.json && npm run vite-build",
+  "vite-build": "vite build --config client/vite.config.js",
+  "render-build": "npm install && npm run build"
+},
+
   "dependencies": {
+    "@apollo/client": "^3.8.0",
     "@types/bcrypt": "^5.0.2",
-    "@types/jsonwebtoken": "^9.0.9",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/jwt-decode": "^2.2.1",
-    "@types/react-bootstrap": "^0.32.37",
-    "@types/react-router-dom": "^5.3.3",
     "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "graphql": "^16.10.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.0"
+    "mongoose": "^8.10.1",
+    "react-bootstrap": "^2.7.0",
+    "react-router-dom": "^6.11.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-bootstrap": "^0.32.37",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-router-dom": "^5.3.3"
   },
   "overrides": {
     "@types/express": "4.17.21"
   },
   "resolutions": {
     "@types/express": "4.17.21"
-  },
-  "devDependencies": {
-    "@types/node": "^22.13.5",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4"
   }
 }
