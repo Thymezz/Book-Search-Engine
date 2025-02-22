@@ -42,11 +42,11 @@ async function startServer() {
   app.use(express.json());
 
   // Serve static files from the React build for Render deployment
-  app.use(express.static(path.resolve(__dirname, '../../client/dist')));
+  app.use(express.static(path.resolve(__dirname, '../../client')));
 
   // Catch-all route for React SPA
-  app.get('*', (_, res) => {
-    res.sendFile(path.resolve(__dirname, '../../client/dist/index.html'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../client/index.html'));
   });
 
   // Start the server
