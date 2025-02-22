@@ -9,7 +9,26 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "strict": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ],
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/dotenv": "^6.1.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-router-dom": "^5.3.3"
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.13.0"
+  }
 }

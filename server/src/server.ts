@@ -8,6 +8,7 @@ import typeDefs from './schemas/typeDef.js';
 import resolvers from './schemas/resolvers.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import type { Application } from 'express';
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ const server = new ApolloServer({
 
 async function startServer() {
   await server.start();
-  server.applyMiddleware({ app, path: '/graphql' });
+  server.applyMiddleware({ app: app as Application, path: '/graphql' });
 
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
