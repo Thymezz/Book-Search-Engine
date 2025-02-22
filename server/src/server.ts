@@ -45,7 +45,7 @@ async function startServer() {
   app.use(express.static(path.resolve(__dirname, '../../client/dist')));
 
   // Catch-all route for React SPA
-  app.get('*', (req, res) => {
+  app.get('*', (_, res) => {
     res.sendFile(path.resolve(__dirname, '../../client/dist/index.html'));
   });
 
