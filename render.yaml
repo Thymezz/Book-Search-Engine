@@ -2,23 +2,19 @@ services:
   - type: web
     name: book-search-engine-backend
     env: node
-    buildCommand: |
-      npm install --legacy-peer-deps
-      npm install --prefix client --legacy-peer-deps
-      npm install --prefix server --legacy-peer-deps
-      npm run build
-      npm run build --prefix client
-    startCommand: npm start
+    buildCommand: npm run render-build
+    startCommand: npm run start
     branch: main
     envVars:
       - key: MONGODB_URI
-        value: ${mongodb+srv://Thymezz:4Gh38fkcdFkKfU78@cluster0.mongodb.net/googlebooks?retryWrites=true&w=majority}
+        value: ${MONGODB_URI}
       - key: JWT_SECRET_KEY
-        value: ${q}
-
+        value: ${JWT_SECRET_KEY}
+      - key: NODE_ENV
+        value: production
   - type: web
     name: book-search-engine-frontend
     env: static
-    buildCommand: npm install --prefix client --legacy-peer-deps && npm run build --prefix client
+    buildCommand: npm run build --prefix client
     staticPublishPath: client/dist
     branch: main
