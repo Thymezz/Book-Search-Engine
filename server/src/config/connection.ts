@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/your_local_db';
+const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/defaultDB';
 
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
@@ -12,9 +12,9 @@ mongoose.connect(connectionString, {
 
 const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
-  console.log('Successfully connected to MongoDB');
+  console.log('Connected to MongoDB successfully!');
 });
 
 export default db;
