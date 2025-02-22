@@ -3,7 +3,7 @@ services:
     name: book-search-engine-backend
     env: node
     buildCommand: |
-      npm install --include=dev
+      npm install --legacy-peer-deps
       npm run build
     startCommand: npm start
     branch: main
@@ -19,7 +19,7 @@ services:
     name: book-search-engine-frontend
     env: static
     buildCommand: |
-      npm install --prefix client --include=dev
+      npm install --prefix client --legacy-peer-deps
       npm run build --prefix client
     staticPublishPath: client/dist
     branch: main
