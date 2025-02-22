@@ -7,9 +7,13 @@
   "start": "node dist/server.js",
   "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
   "build": "tsc",
+  "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
   "render-build": "npm run build && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
-  "postinstall": "npm install --legacy-peer-deps"
+  "postinstall": "npm install --include=dev",
+  "prepare": "npm install --save-dev @types/node @types/react @types/react-dom",
+  "install-types": "npm install @types/node @types/react @types/react-dom --legacy-peer-deps"
   },
+
   "dependencies": {
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.28",

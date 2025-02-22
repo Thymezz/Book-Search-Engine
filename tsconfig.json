@@ -28,7 +28,7 @@
     "rootDir": "./",
     "outDir": "./dist",
 
-    "types": ["node", "react", "react-dom"],
+    "types": [],
 
 
     "typeRoots": ["./node_modules/@types", "./server/src/types"]
