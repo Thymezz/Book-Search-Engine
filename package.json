@@ -8,9 +8,14 @@
     "dev": "nodemon --watch server/src --ext ts,json --exec ts-node server/src/server.ts",
     "build": "tsc --build",
     "render-build": "npm install --include=dev && npm run build && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
-    "postinstall": "npm install --include=dev @types/node @types/react @types/react-dom"
+    "postinstall": "npm install --include=dev @types/node @types/react @types/react-dom @types/bcrypt @types/jsonwebtoken @types/react-router-dom @types/react-bootstrap @types/jwt-decode"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/react-bootstrap": "^0.32.37",
+    "@types/react-router-dom": "^5.3.3",
     "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
