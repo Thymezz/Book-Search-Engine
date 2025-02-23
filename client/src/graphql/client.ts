@@ -19,8 +19,9 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  uri: import.meta.env.VITE_GRAPHQL_URI,
   cache: new InMemoryCache(),
 });
+
 
 export default client;
