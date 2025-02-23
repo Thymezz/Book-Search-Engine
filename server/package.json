@@ -1,7 +1,7 @@
 {
-  "extends": "../tsconfig.json",
+  "type": "module",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es2020",
     "moduleResolution": "node",
     "rootDir": "src",
@@ -22,22 +22,25 @@
     "@types/dotenv": "^6.1.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/jwt-decode": "^2.2.1",
-    "@types/mongoose": "^5.11.96",
-    "@types/node": "^22.13.5",
-    "@types/react": "^19.0.10",
-    "@types/react-bootstrap": "^0.32.37",
-    "@types/react-dom": "^19.0.4",
-    "@types/react-router-dom": "^5.3.3"
+    "@types/mongoose": "^5.11.97",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11"
   },
   "dependencies": {
     "@apollo/client": "^3.13.1",
+    "@types/node": "^20.11.17",
     "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.4.2",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
-    "mongoose": "^8.10.1",
-    "react-bootstrap": "^2.10.9",
-    "react-router-dom": "^7.2.0"
+    "mongoose": "^8.1.0",
+    "react-bootstrap": "^2.10.0",
+    "react-router-dom": "^6.15.0"
+  },
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc"
   }
 }

@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es2020",
     "moduleResolution": "node",
+    "rootDir": "src",
+    "outDir": "dist",
     "esModuleInterop": true,
-    "strict": true
+    "resolveJsonModule": true,
+    "strict": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
