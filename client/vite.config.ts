@@ -5,9 +5,9 @@ import path from 'path';
 export default defineConfig({
   root: '.', // Use the root directory
   build: {
-    outDir: 'dist/client', // Output into dist/client folder
+    outDir: 'dist/client', // Ensure it points here
     rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'), // Correct entry point
+      input: path.resolve(__dirname, 'index.html'),
     },
   },
   plugins: [react()],
