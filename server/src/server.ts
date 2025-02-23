@@ -42,11 +42,11 @@ async function startServer() {
   app.use(express.json());
 
   // Serve static files from React build
-  app.use(express.static(path.resolve(__dirname, '../client')));
+  app.use(express.static(path.resolve(__dirname, './client')));
 
   // Catch-all route for React SPA
   app.get('*', (_, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/index.html'));
+    res.sendFile(path.resolve(__dirname, './client/index.html'));
   });
 
   // Listen for requests
