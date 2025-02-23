@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 
-// Log the GraphQL URI to ensure it's being set correctly
+// Debugging log for GraphQL URI
 const graphqlUri = import.meta.env.VITE_GRAPHQL_URI || '/graphql';
 console.log('GraphQL URI:', graphqlUri);
 
@@ -12,7 +12,7 @@ const httpLink = createHttpLink({
   uri: graphqlUri,
 });
 
-// Error Handling for GraphQL and Network Errors
+// Error Handling
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
@@ -24,7 +24,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-// Set up Authentication Middleware
+// Authentication Middleware
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
@@ -35,7 +35,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// Initialize Apollo Client with error handling
+// Initialize Apollo Client
 const client = new ApolloClient({
   link: errorLink.concat(authLink.concat(httpLink)),
   cache: new InMemoryCache(),
