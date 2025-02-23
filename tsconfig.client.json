@@ -14,6 +14,6 @@
       "typeRoots": ["./node_modules/@types"],
       "types": ["react", "react-dom"]
     },
-    "include": ["client/src"],
+    "include": ["client/src", "src", "vite-env.d.ts"],
     "exclude": ["node_modules", "dist", "server"]
   }

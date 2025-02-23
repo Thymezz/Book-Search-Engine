@@ -51,7 +51,6 @@ async function startServer() {
     res.sendFile(path.resolve(__dirname, '../../dist/client/index.html'));
   });
 
-
   // ✅ Start the server
   db.once('open', () => {
     app.listen(PORT, () => {
