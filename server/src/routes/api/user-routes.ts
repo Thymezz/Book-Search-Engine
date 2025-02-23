@@ -1,30 +1,20 @@
-import express from 'express';
-import {
-  createUser,
-  getSingleUser,
-  saveBook,
-  deleteBook,
-  login,
-} from '../../controllers/user-controller.js';
-
-// Import authentication middleware
+import express, { Response } from 'express';
+import { getSingleUser, saveBook, deleteBook } from '../../controllers/user-controller.js';
 import { authMiddleware } from '../../services/auth.js';
+
 
 const router = express.Router();
 
-// Register a new user
-router.post('/register', createUser);
+router.get('/me', authMiddleware, async (req: any, res: Response) => {
+  await getSingleUser(req, res);
+});
 
-// User login
-router.post('/login', login);
+router.put('/save', authMiddleware, async (req: any, res: Response) => {
+  await saveBook(req, res);
+});
 
-// Get single user details (authenticated)
-router.get('/me', authMiddleware, getSingleUser);
-
-// Save a book to user's savedBooks list (authenticated)
-router.put('/save', authMiddleware, saveBook);
-
-// Delete a book from user's savedBooks list (authenticated)
-router.delete('/books/:bookId', authMiddleware, deleteBook);
+router.delete('/books/:bookId', authMiddleware, async (req: any, res: Response) => {
+  await deleteBook(req, res);
+});
 
 export default router;

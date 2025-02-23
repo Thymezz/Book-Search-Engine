@@ -1,33 +1,31 @@
-import type { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import User from '../models/User.js';
 import { signToken } from '../services/auth.js';
-import { AuthenticationError } from 'apollo-server-express';
-import type { UserDocument } from '../models/User.js';
 
-// Custom interface to extend Request object with user
+// ✅ Define AuthenticatedRequest interface for user context
 interface AuthenticatedRequest extends Request {
-  user?: {
+  user: {
     _id: string;
     username: string;
+    email: string;
   };
 }
 
 // ✅ Get a single user by ID or username
 export const getSingleUser = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const foundUser = await User.findOne({
-      $or: [{ _id: req.user?._id || req.params.id }, { username: req.params.username }],
-    });
-
-    if (!foundUser) {
-      return res.status(400).json({ message: 'Cannot find a user with this ID or username!' });
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    return res.json(foundUser);
+    const token = signToken(user.username, user.email, String(user._id));
+    return res.json({ user, token });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
+  return; // ✅ Ensures that all code paths return a value
 };
 
 // ✅ Create a user, sign a token, and send it back
@@ -39,7 +37,7 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Something went wrong!' });
     }
 
-    const token = signToken(user.username, user.email, user._id);
+    const token = signToken(user.username, user.email, String(user._id));
     return res.json({ token, user });
   } catch (err) {
     console.error(err);
@@ -62,7 +60,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Incorrect password!' });
     }
 
-    const token = signToken(user.username, user.email, user._id);
+    const token = signToken(user.username, user.email, String(user._id));
     return res.json({ token, user });
   } catch (err) {
     console.error(err);
@@ -70,16 +68,16 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-// ✅ Save a book to a user's `savedBooks` field
+// ✅ Save a book to a user's savedBooks list
 export const saveBook = async (req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
-    return res.status(401).json({ message: 'Unauthorized access' });
+    return res.status(401).json({ message: 'Unauthorized access - User not authenticated.' });
   }
 
   try {
     const updatedUser = await User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $addToSet: { savedBooks: req.body } },
+      { _id: req.user._id }, // Safely access user ID after null check
+      { $addToSet: { savedBooks: req.body } }, // Avoid duplicates
       { new: true, runValidators: true }
     );
 
@@ -90,30 +88,30 @@ export const saveBook = async (req: AuthenticatedRequest, res: Response) => {
     return res.json(updatedUser);
   } catch (err) {
     console.error(err);
-    return res.status(400).json({ message: 'Failed to save book' });
+    return res.status(500).json({ message: 'Failed to save book' });
   }
 };
 
-// ✅ Remove a book from `savedBooks`
+// ✅ Delete a book from a user's savedBooks list
 export const deleteBook = async (req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
-    return res.status(401).json({ message: 'Unauthorized access' });
+    return res.status(401).json({ message: 'Unauthorized access - User not authenticated.' });
   }
 
   try {
     const updatedUser = await User.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.user._id }, // Safely access user ID after null check
       { $pull: { savedBooks: { bookId: req.params.bookId } } },
       { new: true }
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found with provided ID" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     return res.json(updatedUser);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Failed to remove book' });
+    return res.status(500).json({ message: 'Failed to delete book' });
   }
 };

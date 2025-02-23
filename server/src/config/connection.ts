@@ -6,16 +6,12 @@ dotenv.config();
 // ✅ Use MongoDB URI from environment variables with fallback
 const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/bookSearchDB';
 
-// ✅ Connection options for better performance and deprecation warnings
-const mongooseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
 async function connectToDatabase() {
   try {
-    await mongoose.connect(connectionString, mongooseOptions);
-    console.log('✅ Successfully connected to MongoDB');
+    await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    } as mongoose.ConnectOptions);
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error);
     process.exit(1); // Exit the application on failure

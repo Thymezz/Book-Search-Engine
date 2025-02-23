@@ -84,7 +84,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleModalClose }) => {
           placeholder="Your username"
           name="username"
           onChange={handleInputChange}
-          value={userFormData.username}
+          value={userFormData.username || ''}
           required
         />
       </Form.Group>
@@ -97,7 +97,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleModalClose }) => {
           placeholder="Your email address"
           name="email"
           onChange={handleInputChange}
-          value={userFormData.email}
+          value={userFormData.email || ''}
           required
         />
       </Form.Group>
@@ -110,7 +110,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleModalClose }) => {
           placeholder="Your password"
           name="password"
           onChange={handleInputChange}
-          value={userFormData.password}
+          value={userFormData.password || ''}
           required
         />
       </Form.Group>

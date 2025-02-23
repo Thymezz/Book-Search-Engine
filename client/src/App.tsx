@@ -13,6 +13,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
+/** @jsxImportSource react */
+
 
 // ✅ Setting up HTTP link with environment variable fallback
 const httpLink = createHttpLink({
