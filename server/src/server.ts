@@ -10,10 +10,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import type { Application } from 'express';
 
-// Load environment variables
 dotenv.config();
 
-// Fix __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -43,15 +41,15 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  // ✅ Serve static files from the React build (correct path for Render deployment)
+  // Serve static files from React build
   app.use(express.static(path.resolve(__dirname, '../../dist/client')));
 
-  // ✅ Catch-all route for React SPA
+  // Catch-all route for React SPA
   app.get('*', (_, res) => {
     res.sendFile(path.resolve(__dirname, '../../dist/client/index.html'));
   });
 
-  // ✅ Start the server only after database connection
+  // Listen for requests
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
