@@ -5,15 +5,15 @@ import path from 'path';
 export default defineConfig({
   root: '.', // Use the root directory
   build: {
-    outDir: 'dist/client', // Ensure it points here
+    outDir: 'dist/client', // Output client build here
     rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'),
+      input: path.resolve(__dirname, 'index.html'), // Set entry point
     },
   },
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'), // Aliases for cleaner imports
+      '@': path.resolve(__dirname, 'src'),
     },
   },
 });
