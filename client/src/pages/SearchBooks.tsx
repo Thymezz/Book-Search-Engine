@@ -32,12 +32,16 @@ const SearchBooks = () => {
 
     try {
       setLoading(true);
+      console.log("Searching for books:", searchInput);
       const response = await searchGoogleBooks(searchInput);
+
       if (!response.ok) {
+        console.error('Search API failed with status:', response.status);
         throw new Error('Search failed');
       }
 
       const { items } = await response.json();
+      console.log("Books found:", items);
       const bookData = items.map((book: GoogleAPIBook) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
@@ -46,15 +50,15 @@ const SearchBooks = () => {
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
 
-      console.log('Books fetched from Google API:', bookData);
       setSearchedBooks(bookData);
       setSearchInput('');
     } catch (err) {
-      console.error('Error searching books:', err);
+      console.error("Search failed with error:", err);
     } finally {
       setLoading(false);
     }
   };
+
 
   // ✅ Handle Saving Books
   const handleSaveBook = async (bookId: string) => {
