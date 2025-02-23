@@ -7,14 +7,12 @@ import Navbar from './components/Navbar';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 
-// Set up HTTP link
+// ✅ Set up HTTP link using Vite-compatible environment variables
 const httpLink = createHttpLink({
-  uri: process.env.NODE_ENV === 'production'
-    ? 'https://book-search-engine-ox59.onrender.com/graphql' // Use Render URL in production
-    : 'http://localhost:3001/graphql', // Use localhost for development
+  uri: import.meta.env.VITE_GRAPHQL_URI || 'http://localhost:3001/graphql', // Use Render URL in production or localhost in development
 });
 
-// Error handling link
+// ✅ Error handling link for Apollo GraphQL
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
@@ -26,7 +24,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-// Set up authentication middleware
+// ✅ Set up authentication middleware for secure API requests
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
@@ -37,13 +35,16 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// Initialize Apollo Client
+// ✅ Initialize Apollo Client
 const client = new ApolloClient({
   link: errorLink.concat(authLink.concat(httpLink)),
   cache: new InMemoryCache(),
 });
 
 function App() {
+  console.log("App component is rendering...");
+  console.log("GraphQL URI:", import.meta.env.VITE_GRAPHQL_URI);
+
   return (
     <ApolloProvider client={client}>
       <Router>
