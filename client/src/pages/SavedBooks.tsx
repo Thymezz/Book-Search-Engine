@@ -16,13 +16,19 @@ const SavedBooks = () => {
 
   const [loading, setLoading] = useState(true);
 
-  // Fetch User Data
+  // ✅ Component Mount Check
+  useEffect(() => {
+    console.log('SavedBooks component mounted');
+  }, []);
+
+  // ✅ Fetch User Data with Debugging Logs
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const token = Auth.loggedIn() ? Auth.getToken() : null;
 
         if (!token) {
+          console.log('No token found, not logged in');
           setLoading(false);
           return;
         }
@@ -30,22 +36,41 @@ const SavedBooks = () => {
         const response = await getMe(token);
 
         if (!response.ok) {
-          throw new Error('Something went wrong!');
+          throw new Error('Failed to fetch user data');
         }
 
         const user = await response.json();
+        console.log('Fetched User Data:', user);
         setUserData(user);
       } catch (err) {
-        console.error(err);
+        console.error('Error fetching user data:', err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
+
+    // ✅ Dummy Data for Testing
+    /*
+    setUserData({
+      username: 'TestUser',
+      email: 'test@example.com',
+      password: '',
+      savedBooks: [
+        {
+          bookId: 'dummy1',
+          authors: ['Author A'],
+          title: 'Test Book 1',
+          description: 'This is a test description',
+          image: '',
+        },
+      ],
+    });
+    */
   }, []);
 
-  // Handle Book Deletion
+  // ✅ Handle Book Deletion
   const handleDeleteBook = async (bookId: string) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -61,6 +86,7 @@ const SavedBooks = () => {
       }
 
       const updatedUser = await response.json();
+      console.log('Updated User Data After Deletion:', updatedUser);
       setUserData(updatedUser);
       removeBookId(bookId);
     } catch (err) {
@@ -68,7 +94,7 @@ const SavedBooks = () => {
     }
   };
 
-  // Loading state
+  // ✅ Loading State Debug
   if (loading) {
     return <h2>LOADING...</h2>;
   }
@@ -87,9 +113,7 @@ const SavedBooks = () => {
       <Container>
         <h2 className='pt-5'>
           {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${
-                userData.savedBooks.length === 1 ? 'book' : 'books'
-              }`
+            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}`
             : 'You have no saved books!'}
         </h2>
         <Row>

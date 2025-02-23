@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import {
-  Container,
-  Col,
-  Form,
-  Button,
-  Card,
-  Row
-} from 'react-bootstrap';
+import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 import { saveBook, searchGoogleBooks } from '../utils/API';
@@ -21,12 +14,17 @@ const SearchBooks = () => {
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
   const [loading, setLoading] = useState(false);
 
-  // Persist saved book IDs to localStorage
+  // ✅ Log component mount
+  useEffect(() => {
+    console.log('SearchBooks component mounted');
+  }, []);
+
+  // ✅ Persist saved book IDs to localStorage
   useEffect(() => {
     saveBookIds(savedBookIds);
   }, [savedBookIds]);
 
-  // Search books from Google Books API
+  // ✅ Search books from Google Books API with Debugging Logs
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -48,16 +46,17 @@ const SearchBooks = () => {
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
 
+      console.log('Books fetched from Google API:', bookData);
       setSearchedBooks(bookData);
       setSearchInput('');
     } catch (err) {
-      console.error(err);
+      console.error('Error searching books:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle saving books to user account
+  // ✅ Handle Saving Books
   const handleSaveBook = async (bookId: string) => {
     const bookToSave: Book | undefined = searchedBooks.find((book) => book.bookId === bookId);
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -71,9 +70,10 @@ const SearchBooks = () => {
       if (!response.ok) {
         throw new Error('Failed to save book');
       }
+      console.log('Book saved successfully:', bookToSave);
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.error(err);
+      console.error('Error saving book:', err);
     }
   };
 

@@ -1,15 +1,14 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-// Log the GraphQL URI for debugging
+// Logging GraphQL URI for verification
 console.log('GraphQL URI:', import.meta.env.VITE_GRAPHQL_URI);
 
-// Create an HTTP link for the GraphQL endpoint
 const httpLink = createHttpLink({
-  uri: import.meta.env.VITE_GRAPHQL_URI || '/graphql', // Fallback for development
+  uri: import.meta.env.VITE_GRAPHQL_URI || '/graphql',
 });
 
-// Set the authorization header if a token exists
+// Set up authentication link
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
@@ -20,9 +19,18 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// Initialize Apollo Client with auth and HTTP links
+// Error handling link
+const errorLink = new ApolloLink((operation, forward) => {
+  return forward(operation).map((response) => {
+    if (response.errors) {
+      console.error('GraphQL Errors:', response.errors);
+    }
+    return response;
+  });
+});
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink), // Attach authLink before httpLink
+  link: ApolloLink.from([authLink, errorLink, httpLink]), // Combine links
   cache: new InMemoryCache(),
 });
 
