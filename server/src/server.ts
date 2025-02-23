@@ -20,9 +20,10 @@ const PORT = process.env.PORT || 3001;
 
 // Enable CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'https://book-search-engine-ox59.onrender.com',
   credentials: true,
 }));
+
 
 // Set up Apollo Server
 const server = new ApolloServer({
