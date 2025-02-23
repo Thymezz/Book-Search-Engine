@@ -41,15 +41,15 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  // Serve static files from the React build for Render deployment
-  app.use(express.static(path.resolve(__dirname, '../../client')));
+  // ✅ Serve static files from the React build (correct path for Render deployment)
+  app.use(express.static(path.resolve(__dirname, '../../dist/client')));
 
-  // Catch-all route for React SPA
+  // ✅ Catch-all route for React SPA
   app.get('*', (_, res) => {
-    res.sendFile(path.resolve(__dirname, '../../client/index.html'));
+    res.sendFile(path.resolve(__dirname, '../../dist/client/index.html'));
   });
 
-  // Start the server
+  // ✅ Start the server
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
