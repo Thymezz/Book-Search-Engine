@@ -3,15 +3,16 @@ import react from '@vitejs/plugin-react';
 import polyfillNode from 'rollup-plugin-polyfill-node';
 import inject from '@rollup/plugin-inject';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 export default defineConfig(({ mode }) => {
-  // Load env variables
+  // ✅ Load environment variables
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    root: './client',
-    base: './', // Use a relative path for assets in production
+    root: './client', // ✅ Set client root directory
+    base: './', // ✅ Relative path for production assets
     plugins: [react()],
     resolve: {
       alias: {
@@ -21,7 +22,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      'process.env': process.env,
+      'process.env': process.env, // ✅ Environment variables
       global: 'globalThis',
       'import.meta.env.VITE_GRAPHQL_URI': JSON.stringify(process.env.VITE_GRAPHQL_URI),
     },
@@ -33,14 +34,14 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: '../dist/client',
-      emptyOutDir: true,
+      outDir: '../dist/client', // ✅ Output build folder
+      emptyOutDir: true, // ✅ Clear old builds
       rollupOptions: {
-        input: './client/index.html', // Correct path
+        input: './client/index.html', // ✅ Entry point
         output: {
-          entryFileNames: 'assets/[name].[hash].js',
-          chunkFileNames: 'assets/[name].[hash].js',
-          assetFileNames: 'assets/[name].[hash].[ext]',
+          entryFileNames: 'assets/[name]-[hash].js', // ✅ Cache busting with hashes
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash][extname]',
         },
         plugins: [
           polyfillNode(),
@@ -50,12 +51,14 @@ export default defineConfig(({ mode }) => {
             process: 'process/browser',
           }),
         ],
-      }
+      },
     },
     server: {
       headers: {
-        'Content-Type': 'application/javascript',
+        'Content-Type': 'application/javascript', // ✅ Ensure JS files served correctly
       },
+      open: true, // ✅ Automatically open browser on dev start
+      port: 3000, // ✅ Set port for local development
     },
   };
 });

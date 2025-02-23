@@ -6,47 +6,62 @@ interface UserToken {
   exp: number;
 }
 
-// create a new class to instantiate for a user
+// Create a new class to instantiate for a user
 class AuthService {
-  // get user data
-  getProfile() {
-    return jwtDecode<UserToken>(this.getToken() || '');
+  /**
+   * Retrieves user data from the stored token.
+   * @returns {UserToken | null} Decoded token data or null if not found.
+   */
+  getProfile(): UserToken | null {
+    const token = this.getToken();
+    return token ? jwtDecode<UserToken>(token) : null;
   }
 
-  // check if user's logged in
-  loggedIn() {
-    // Checks if there is a saved token and it's still valid
+  /**
+   * Checks if the user is logged in based on token validity.
+   * @returns {boolean} True if the user is logged in.
+   */
+  loggedIn(): boolean {
     const token = this.getToken();
     return !!token && !this.isTokenExpired(token);
   }
 
-  // check if token is expired
-  isTokenExpired(token: string) {
+  /**
+   * Checks if the JWT token is expired.
+   * @param {string} token - JWT token.
+   * @returns {boolean} True if token is expired.
+   */
+  isTokenExpired(token: string): boolean {
     try {
       const decoded = jwtDecode<UserToken>(token);
-      if (decoded.exp < Date.now() / 1000) {
-        return true;
-      }
-
-      return false;
+      return decoded.exp < Date.now() / 1000;
     } catch (err) {
-      return false;
+      console.error("Invalid token:", err);
+      return true;
     }
   }
 
-  getToken() {
-    // Retrieves the user token from localStorage
+  /**
+   * Retrieves the JWT token from localStorage.
+   * @returns {string | null} The token or null if not found.
+   */
+  getToken(): string | null {
     return localStorage.getItem('id_token');
   }
 
-  login(idToken: string) {
-    // Saves user token to localStorage
+  /**
+   * Saves a JWT token to localStorage and redirects the user.
+   * @param {string} idToken - JWT token.
+   */
+  login(idToken: string): void {
     localStorage.setItem('id_token', idToken);
     window.location.assign('/');
   }
 
-  logout() {
-    // Clear user token and profile data from localStorage
+  /**
+   * Clears JWT token from localStorage and logs out the user.
+   */
+  logout(): void {
     localStorage.removeItem('id_token');
     window.location.assign('/');
   }

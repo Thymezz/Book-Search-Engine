@@ -1,4 +1,3 @@
-import User from './User';
-import Book from './Book'; // ✅ Import Book if you have it
+import User from './User.js'; // ✅ Ensure proper file extension for ES Modules
 
-export { User, Book }; // ✅ Named exports for easier imports elsewhere
+export { User }; // ✅ Only export User since Book is used as a subdocument

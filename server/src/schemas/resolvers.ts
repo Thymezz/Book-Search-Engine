@@ -1,19 +1,26 @@
 import User from '../models/User.js';
 import { signToken } from '../services/auth.js';
 import { AuthenticationError } from 'apollo-server-express';
+import type { JwtPayload } from '../services/auth.js';
 
 const resolvers = {
   Query: {
-    me: async (_: any, __: any, context: any) => {
+    // Fetch current authenticated user data
+    me: async (_: any, __: any, context: { user: JwtPayload | null }) => {
       if (context.user) {
-        return await User.findById(context.user._id);
+        const user = await User.findById(context.user._id).select('-__v -password');
+        if (!user) {
+          throw new AuthenticationError('User not found');
+        }
+        return user;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
   },
 
   Mutation: {
-    login: async (_: any, { email, password }: { email: string, password: string }) => {
+    // User login
+    login: async (_: any, { email, password }: { email: string; password: string }) => {
       const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError('No user found with this email');
@@ -28,31 +35,43 @@ const resolvers = {
       return { token, user };
     },
 
-    addUser: async (_: any, { username, email, password }: { username: string, email: string, password: string }) => {
+    // Register a new user
+    addUser: async (
+      _: any,
+      { username, email, password }: { username: string; email: string; password: string }
+    ) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user.username, user.email, user._id);
       return { token, user };
     },
 
-    saveBook: async (_: any, { bookData }: any, context: any) => {
+    // Save a book to the authenticated user's profile
+    saveBook: async (_: any, { bookData }: any, context: { user: JwtPayload | null }) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
           context.user._id,
-          { $addToSet: { savedBooks: bookData } },
+          { $addToSet: { savedBooks: bookData } }, // Prevents duplicates
           { new: true, runValidators: true }
-        );
+        ).select('-__v -password');
+        if (!updatedUser) {
+          throw new Error('Failed to update user book list');
+        }
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    removeBook: async (_: any, { bookId }: { bookId: string }, context: any) => {
+    // Remove a book from the user's saved books list
+    removeBook: async (_: any, { bookId }: { bookId: string }, context: { user: JwtPayload | null }) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
           context.user._id,
           { $pull: { savedBooks: { bookId } } },
           { new: true }
-        );
+        ).select('-__v -password');
+        if (!updatedUser) {
+          throw new Error('Failed to remove the book from saved list');
+        }
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in!');

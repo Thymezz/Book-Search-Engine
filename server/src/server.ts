@@ -2,10 +2,10 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { ApolloServer } from 'apollo-server-express';
-import db from './config/connection.js';
-import { authMiddleware } from './services/auth.js';
-import typeDefs from './schemas/typeDef.js';
-import resolvers from './schemas/resolvers.js';
+import db from './src/config/connection.js';
+import { authMiddleware } from './src/services/auth.js';
+import typeDefs from './src/schemas/typeDefs.js';
+import resolvers from './src/schemas/resolvers.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import type { Application } from 'express';
@@ -18,23 +18,20 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Enable CORS
-// app.use(cors({
-//   origin: process.env.FRONTEND_URL || 'https://book-search-engine-ox59.onrender.com',
-//   credentials: true,
-// }));
-app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
-  credentials: true,
-}));
-
+// Enable CORS for all origins (including Render)
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true,
+  })
+);
 
 // Set up Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
-  cache: "bounded",
+  cache: 'bounded',
   persistedQueries: false,
 });
 
@@ -46,8 +43,8 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  // Correct static file path for Render
-  const clientBuildPath = path.resolve(__dirname, '../client');
+  // Correct static file path for deployed app
+  const clientBuildPath = path.resolve(__dirname, './dist/client');
   app.use(
     express.static(clientBuildPath, {
       setHeaders: (res, filePath) => {
@@ -59,18 +56,19 @@ async function startServer() {
   );
 
   // Catch-all route for React SPA
-  // app.get('*', (_, res) => {
-  //   res.sendFile(path.resolve(clientBuildPath, 'index.html'));
-  // });
+  app.get('*', (_, res) => {
+    res.sendFile(path.resolve(clientBuildPath, 'index.html'));
+  });
+
+  // Health check route
   app.get('/health', (_, res) => {
     res.send('Server is running!');
   });
 
-
   // Listen for requests
   db.once('open', () => {
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
+      console.log(`🚀 Server running on http://localhost:${PORT}${server.graphqlPath}`);
     });
   });
 }

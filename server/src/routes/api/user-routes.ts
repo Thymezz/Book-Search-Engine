@@ -1,24 +1,30 @@
-// import express from 'express';
-// //const router = express.Router();
-// import {
-//   createUser,
-//   getSingleUser,
-//   saveBook,
-//   deleteBook,
-//   login,
-// } from '../../controllers/user-controller.js';
+import express from 'express';
+import {
+  createUser,
+  getSingleUser,
+  saveBook,
+  deleteBook,
+  login,
+} from '../../controllers/user-controller.js';
 
-// // import middleware
-// //import { authMiddleware } from '../../services/auth.js';
+// Import authentication middleware
+import { authMiddleware } from '../../services/auth.js';
 
+const router = express.Router();
 
-// // put authMiddleware anywhere we need to send a token for verification of user
-// // router.route('/').post(createUser).put(authenticateToken, saveBook);
+// Register a new user
+router.post('/register', createUser);
 
-// // router.route('/login').post(login);
+// User login
+router.post('/login', login);
 
-// // router.route('/me').get(authenticateToken, getSingleUser);
+// Get single user details (authenticated)
+router.get('/me', authMiddleware, getSingleUser);
 
-// // router.route('/books/:bookId').delete(authenticateToken, deleteBook);
+// Save a book to user's savedBooks list (authenticated)
+router.put('/save', authMiddleware, saveBook);
 
-// //export default router;
+// Delete a book from user's savedBooks list (authenticated)
+router.delete('/books/:bookId', authMiddleware, deleteBook);
+
+export default router;

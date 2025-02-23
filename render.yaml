@@ -3,21 +3,21 @@ services:
     name: book-search-engine-backend
     env: node
     buildCommand: npm run build
-    startCommand: npm run start
+    startCommand: npm start
     branch: main
     envVars:
-      - key: MONGODB_URI
-        value: ${MONGODB_URI}
-      - key: JWT_SECRET_KEY
-        value: ${JWT_SECRET_KEY}
+      - key: VITE_MONGODB_URI
+        value: mongodb+srv://Thymezz:Warcraft3@cluster0.sjvk5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: VITE_JWT_SECRET_KEY
+        value: q
       - key: NODE_ENV
         value: production
       - key: FRONTEND_URL
-        value: https://your-frontend-url.onrender.com
+        value: https://book-search-engine-ox59.onrender.com
 
   - type: web
     name: book-search-engine-frontend
     env: static
     buildCommand: npm run build --prefix client
-    staticPublishPath: client/dist
+    staticPublishPath: dist/client
     branch: main

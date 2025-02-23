@@ -14,21 +14,24 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleModalClose }) => {
     email: '',
     password: '',
   });
-  const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  // Handle input field changes
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // Handle form submission
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const form = event.currentTarget;
+
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
 
     try {
@@ -45,27 +48,32 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleModalClose }) => {
       Auth.login(token);
       handleModalClose(); // Close the modal after successful login
     } catch (err) {
-      console.error(err);
+      console.error('Login Error:', err);
       setShowAlert(true);
     }
 
-    setUserFormData({
-      email: '',
-      password: '',
-    });
+    // Reset form data
+    setUserFormData({ email: '', password: '' });
   };
 
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant="danger">
+        {/* Error Alert */}
+        <Alert
+          dismissible
+          onClose={() => setShowAlert(false)}
+          show={showAlert}
+          variant="danger"
+        >
           Something went wrong with your login credentials!
         </Alert>
 
+        {/* Email Input */}
         <Form.Group className="mb-3">
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
-            type="text"
+            type="email"
             placeholder="Your email"
             name="email"
             onChange={handleInputChange}
@@ -75,6 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleModalClose }) => {
           <Form.Control.Feedback type="invalid">Email is required!</Form.Control.Feedback>
         </Form.Group>
 
+        {/* Password Input */}
         <Form.Group className="mb-3">
           <Form.Label htmlFor="password">Password</Form.Label>
           <Form.Control
@@ -88,6 +97,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleModalClose }) => {
           <Form.Control.Feedback type="invalid">Password is required!</Form.Control.Feedback>
         </Form.Group>
 
+        {/* Submit Button */}
         <Button
           disabled={!(userFormData.email && userFormData.password)}
           type="submit"

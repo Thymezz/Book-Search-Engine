@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2020"],
     "module": "esnext",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -9,10 +9,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "noUnusedParameters": false,
-    "jsx": "react-jsx",
-    // "rootDir": "./server/src",
-    "outDir": "./dist/server",
+    "noUnusedParameters": true,
+    "strict": true,
+    "rootDir": "./",
     "typeRoots": ["./node_modules/@types"],
     "types": ["node"]
   },

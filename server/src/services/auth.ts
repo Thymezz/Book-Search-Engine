@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express';
 
 // Load environment variables
 dotenv.config();
@@ -12,29 +13,34 @@ interface JwtPayload {
   email: string;
 }
 
-// Middleware to authenticate requests
-export const authMiddleware = ({ req }: { req: any }) => {
+// 🔒 Middleware to authenticate requests
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   let token = req.body.token || req.query.token || req.headers.authorization;
 
+  // Extract token from Bearer string
   if (req.headers.authorization) {
-    token = token.split(' ').pop().trim();
+    token = token.split(' ').pop()?.trim();
   }
 
   if (!token) {
-    return req;
+    return next(); // Continue without user if no token is provided
   }
 
   try {
-    const { _id, username, email } = jwt.verify(token, secretKey) as JwtPayload;
-    req.user = { _id, username, email };
+    // Verify token and attach user data to request
+    const decoded = jwt.verify(token, secretKey) as JwtPayload;
+    req.user = {
+      _id: decoded._id,
+      username: decoded.username,
+    };
   } catch (err) {
-    console.log('Invalid token', err);
+    console.log('Invalid token:', err);
   }
 
-  return req;
+  return next();
 };
 
-// Function to sign JWT tokens
+// 🔑 Function to sign JWT tokens
 export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id };
   return jwt.sign(payload, secretKey, { expiresIn: '1h' });

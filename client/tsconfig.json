@@ -1,28 +1,28 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react-jsx",
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
-    "noImplicitOverride": true,
-    "useUnknownInCatchVariables": true,
-    "rootDir": "./",
-    "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["node", "react", "react-dom"]
+    "target": "ES2020", // ✅ Modern JavaScript features
+    "lib": ["ES2020", "DOM"], // ✅ Libraries for modern JS and browser support
+    "module": "ESNext", // ✅ Supports modern ES module syntax
+    "moduleResolution": "node", // ✅ Aligns with Node.js module resolution
+    "jsx": "react-jsx", // ✅ Supports JSX with the new transform (React 17+)
+    "skipLibCheck": true, // ✅ Skips type checking for declaration files for faster builds
+    "resolveJsonModule": true, // ✅ Allows importing JSON files as modules
+    "esModuleInterop": true, // ✅ Enables default imports for CommonJS modules
+    "allowSyntheticDefaultImports": true, // ✅ Allows default imports from modules without a default export
+    "forceConsistentCasingInFileNames": true, // ✅ Enforces consistent casing for file names
+    "strict": true, // ✅ Enables all strict type-checking options
+    "noUnusedLocals": true, // ✅ Error on unused local variables
+    "noUnusedParameters": true, // ✅ Error on unused function parameters
+    "noFallthroughCasesInSwitch": true, // ✅ Prevents fallthrough cases in switch statements
+    "exactOptionalPropertyTypes": true, // ✅ Ensures stricter optional property types
+    "noImplicitReturns": true, // ✅ Ensures every function returns a value
+    "noImplicitOverride": true, // ✅ Requires explicit override modifier when overriding a method
+    "useUnknownInCatchVariables": true, // ✅ Use unknown type for catch variables for safer error handling
+    "rootDir": "./src", // ✅ Proper root directory for client source code
+    "outDir": "./dist", // ✅ Output directory for compiled files
+    "typeRoots": ["./node_modules/@types"], // ✅ Specifies type definition root directories
+    "types": ["node", "react", "react-dom"] // ✅ Type definitions for React and Node
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["./src"], // ✅ Only include source files
+  "exclude": ["node_modules", "dist"] // ✅ Exclude unnecessary folders from compilation
 }

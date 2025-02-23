@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "skipLibCheck": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "strict": true
+    "composite": true, // ✅ Allows TypeScript project references
+    "skipLibCheck": true, // ✅ Skip type checking of declaration files
+    "module": "ESNext", // ✅ Use latest ECMAScript module system
+    "moduleResolution": "node", // ✅ Use Node.js-style module resolution
+    "allowSyntheticDefaultImports": true, // ✅ Allow default imports from modules with no default export
+    "esModuleInterop": true, // ✅ Allow default import syntax for CommonJS modules
+    "strict": true, // ✅ Enable all strict type-checking options
+    "target": "ES2020", // ✅ Use modern JavaScript features
+    "lib": ["ES2020", "DOM"], // ✅ Target environment libraries
+    "baseUrl": ".", // ✅ Base directory for resolving non-relative module names
+    "types": ["node"] // ✅ Use Node.js type definitions
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts"], // ✅ Include Vite config for TypeScript support
+  "exclude": ["node_modules", "dist"] // ✅ Exclude unnecessary files from compilation
 }

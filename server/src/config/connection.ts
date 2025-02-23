@@ -3,13 +3,31 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/defaultDB';
+// ✅ Use MongoDB URI from environment variables with fallback
+const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/bookSearchDB';
 
-mongoose.connect(connectionString);
+// ✅ Connection options for better performance and deprecation warnings
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+async function connectToDatabase() {
+  try {
+    await mongoose.connect(connectionString, mongooseOptions);
+    console.log('✅ Successfully connected to MongoDB');
+  } catch (error) {
+    console.error('❌ Failed to connect to MongoDB:', error);
+    process.exit(1); // Exit the application on failure
+  }
+}
 
 const db = mongoose.connection;
 
-db.on('error', (err) => console.error('MongoDB connection error:', err));
-db.once('open', () => console.log('Connected to MongoDB successfully!'));
+// ✅ Event listeners for database connection
+db.on('error', (err) => console.error('❌ MongoDB connection error:', err));
+db.once('open', () => console.log('✅ MongoDB connection established successfully'));
+
+connectToDatabase();
 
 export default db;

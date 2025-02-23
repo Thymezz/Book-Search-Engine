@@ -1,5 +1,6 @@
 import { Schema, type Document } from 'mongoose';
 
+// Define BookDocument interface for TypeScript
 export interface BookDocument extends Document {
   bookId: string;
   title: string;
@@ -9,32 +10,45 @@ export interface BookDocument extends Document {
   link: string;
 }
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedBooks` array in User.js
-const bookSchema = new Schema<BookDocument>({
-  authors: [
-    {
+// Define book schema
+const bookSchema = new Schema<BookDocument>(
+  {
+    authors: [
+      {
+        type: String,
+        required: true, // Ensures at least one author is provided
+      },
+    ],
+    description: {
+      type: String,
+      required: true, // Description is mandatory
+    },
+    // Saved book ID from GoogleBooks
+    bookId: {
+      type: String,
+      required: true, // Book ID is mandatory
+      unique: true, // Prevent duplicate book IDs in user's saved list
+    },
+    image: {
       type: String,
     },
-  ],
-  description: {
-    type: String,
-    required: true,
+    link: {
+      type: String,
+      validate: {
+        validator: function (v: string) {
+          return /^https?:\/\/.+\..+/.test(v);
+        },
+        message: (props: any) => `${props.value} is not a valid URL!`,
+      },
+    },
+    title: {
+      type: String,
+      required: true, // Title is required
+    },
   },
-  // saved book id from GoogleBooks
-  bookId: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-  },
-  link: {
-    type: String,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
+  }
+);
 
 export default bookSchema;
