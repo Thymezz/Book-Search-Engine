@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
-    "rootDir": "./server/src",
+    // "rootDir": "./server/src",
     "outDir": "./dist/server",
     "typeRoots": ["./node_modules/@types"],
     "types": ["node"]
