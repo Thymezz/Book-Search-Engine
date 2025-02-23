@@ -19,17 +19,12 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 
 // Enable CORS
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true,
 }));
-
 
 // Set up Apollo Server
 const server = new ApolloServer({
@@ -56,7 +51,7 @@ async function startServer() {
     res.sendFile(path.resolve(__dirname, '../../dist/client/index.html'));
   });
 
-  // ✅ Start the server
+  // ✅ Start the server only after database connection
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
