@@ -51,8 +51,8 @@ const SavedBooks = () => {
 
     fetchUserData();
 
-    // ✅ Dummy Data for Testing
-    /
+    // ✅ Dummy Data for Testing (Commented Out Correctly)
+    /*
     setUserData({
       username: 'TestUser',
       email: 'test@example.com',
@@ -68,6 +68,7 @@ const SavedBooks = () => {
       ],
     });
     */
+
   }, []);
 
   // ✅ Handle Book Deletion
