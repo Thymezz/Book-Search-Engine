@@ -5,7 +5,7 @@ import inject from '@rollup/plugin-inject';
 
 export default defineConfig({
   root: './client', // Set the root to the client directory
-  base: '/', // Set the base path for assets correctly for deployment
+  base: './', // Correct base path for assets in production
   plugins: [react()],
   resolve: {
     alias: {
@@ -25,9 +25,10 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../dist/client',
+    outDir: '../dist/client', // Output directory for built files
+    emptyOutDir: true, // Clear the output directory before building
     rollupOptions: {
-      input: './client/index.html',
+      input: './client/index.html', // Correct entry point
       plugins: [
         polyfillNode(),
         inject({
