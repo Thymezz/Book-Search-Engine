@@ -4,8 +4,8 @@ import polyfillNode from 'rollup-plugin-polyfill-node';
 import inject from '@rollup/plugin-inject';
 
 export default defineConfig({
-  root: './client', // Set the root to the client directory
-  base: './', // Correct base path for assets in production
+  root: './client',
+  base: './', // Use a relative path for assets in production
   plugins: [react()],
   resolve: {
     alias: {
@@ -25,10 +25,10 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../dist/client', // Output directory for built files
-    emptyOutDir: true, // Clear the output directory before building
+    outDir: '../dist/client',
+    emptyOutDir: true,
     rollupOptions: {
-      input: './client/index.html', // Correct entry point
+      input: './client/index.html',
       plugins: [
         polyfillNode(),
         inject({

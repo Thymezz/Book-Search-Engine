@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "noUnusedParameters": false,
     "jsx": "react-jsx",
     // "rootDir": "./server/src",
     "outDir": "./dist/server",

@@ -48,7 +48,6 @@ async function startServer() {
 
   // ✅ Catch-all route for React SPA
   app.get('*', (_, res) => {
-    console.log('Serving:', path.resolve(__dirname, '../../dist/client/index.html'));
     res.sendFile(path.resolve(__dirname, '../../dist/client/index.html'));
   });
 
