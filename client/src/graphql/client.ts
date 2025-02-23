@@ -30,7 +30,7 @@ const errorLink = new ApolloLink((operation, forward) => {
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink, errorLink, httpLink]), // Combine links
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 

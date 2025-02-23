@@ -19,8 +19,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Enable CORS
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL || 'https://book-search-engine-ox59.onrender.com',
+//   credentials: true,
+// }));
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://book-search-engine-ox59.onrender.com',
+  origin: process.env.FRONTEND_URL || '*',
   credentials: true,
 }));
 
@@ -43,7 +47,7 @@ async function startServer() {
   app.use(express.json());
 
   // Correct static file path for Render
-  const clientBuildPath = path.resolve(__dirname, '../../dist/client');
+  const clientBuildPath = path.resolve(__dirname, '../client');
   app.use(
     express.static(clientBuildPath, {
       setHeaders: (res, filePath) => {
@@ -55,9 +59,13 @@ async function startServer() {
   );
 
   // Catch-all route for React SPA
-  app.get('*', (_, res) => {
-    res.sendFile(path.resolve(clientBuildPath, 'index.html'));
+  // app.get('*', (_, res) => {
+  //   res.sendFile(path.resolve(clientBuildPath, 'index.html'));
+  // });
+  app.get('/health', (_, res) => {
+    res.send('Server is running!');
   });
+
 
   // Listen for requests
   db.once('open', () => {
