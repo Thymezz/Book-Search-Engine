@@ -3,9 +3,9 @@ import react from '@vitejs/plugin-react';
 import polyfillNode from 'rollup-plugin-polyfill-node';
 import inject from '@rollup/plugin-inject';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  root: './client',
+  root: './client', // Set the root to the client directory
+  base: '/', // Set the base path for assets correctly for deployment
   plugins: [react()],
   resolve: {
     alias: {
@@ -28,7 +28,14 @@ export default defineConfig({
     outDir: '../dist/client',
     rollupOptions: {
       input: './client/index.html',
-      external: [], // Ensure no external packages are excluded from the build
+      plugins: [
+        polyfillNode(),
+        inject({
+          global: ['globalThis', 'global'],
+          Buffer: ['buffer', 'Buffer'],
+          process: 'process/browser',
+        }),
+      ],
     },
   },
 });
