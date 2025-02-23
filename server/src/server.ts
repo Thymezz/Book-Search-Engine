@@ -41,12 +41,13 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  // Serve static files from React build
-  app.use(express.static(path.resolve(__dirname, './client')));
+  // Correct static file path for Render
+  const clientBuildPath = path.resolve(__dirname, '../../client');
+  app.use(express.static(clientBuildPath));
 
   // Catch-all route for React SPA
   app.get('*', (_, res) => {
-    res.sendFile(path.resolve(__dirname, './client/index.html'));
+    res.sendFile(path.resolve(clientBuildPath, 'index.html'));
   });
 
   // Listen for requests
