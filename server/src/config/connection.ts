@@ -8,10 +8,8 @@ const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/b
 
 async function connectToDatabase() {
   try {
-    await mongoose.connect(connectionString, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    } as mongoose.ConnectOptions);
+    // Connect without deprecated options
+    await mongoose.connect(connectionString);
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error);
     process.exit(1); // Exit the application on failure
