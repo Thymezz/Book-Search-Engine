@@ -9,7 +9,9 @@ import SavedBooks from './pages/SavedBooks';
 
 // Set up HTTP link
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3001/graphql', // Update this URI for production if needed
+  uri: process.env.NODE_ENV === 'production'
+    ? 'https://book-search-engine-ox59.onrender.com/graphql' // Use Render URL in production
+    : 'http://localhost:3001/graphql', // Use localhost for development
 });
 
 // Error handling link

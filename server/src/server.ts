@@ -30,7 +30,9 @@ app.use(cors({
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  context: authMiddleware,
+  cache: "bounded",
+  persistedQueries: false,
 });
 
 // Start Apollo Server and apply middleware

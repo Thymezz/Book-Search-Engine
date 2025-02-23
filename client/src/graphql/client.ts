@@ -3,8 +3,9 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'https://book-search-engine-ox59.onrender.com/graphql', // Full URL for Render deployment
+  uri: `${process.env.REACT_APP_GRAPHQL_URI || '/graphql'}`,
 });
+
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
