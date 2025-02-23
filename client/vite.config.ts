@@ -37,6 +37,11 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       rollupOptions: {
         input: './client/index.html', // Correct path
+        output: {
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[hash].[ext]',
+        },
         plugins: [
           polyfillNode(),
           inject({
@@ -46,7 +51,11 @@ export default defineConfig(({ mode }) => {
           }),
         ],
       }
-
+    },
+    server: {
+      headers: {
+        'Content-Type': 'application/javascript',
+      },
     },
   };
 });

@@ -42,8 +42,16 @@ async function startServer() {
   app.use(express.json());
 
   // Correct static file path for Render
-  const clientBuildPath = path.resolve(__dirname, '../../client');
-  app.use(express.static(clientBuildPath));
+  const clientBuildPath = path.resolve(__dirname, '../../dist/client');
+  app.use(
+    express.static(clientBuildPath, {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.js')) {
+          res.setHeader('Content-Type', 'application/javascript');
+        }
+      },
+    })
+  );
 
   // Catch-all route for React SPA
   app.get('*', (_, res) => {
