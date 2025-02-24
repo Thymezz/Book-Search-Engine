@@ -1,11 +1,12 @@
 import express from 'express';
-import { fileURLToPath } from 'url';
 import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import type { Request, Response } from 'express';
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
 // ✅ Corrected client build path (move up one level from server/dist)
 const clientBuildPath = path.resolve(__dirname, '../client');
