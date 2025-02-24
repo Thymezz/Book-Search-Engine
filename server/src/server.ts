@@ -1,6 +1,6 @@
 import express from 'express';
-import path from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
 import db from './config/connection.js';
 import { authMiddleware } from './services/auth.js';
