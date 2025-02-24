@@ -9,12 +9,11 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 /** @jsxImportSource react */
-
 
 // ✅ Setting up HTTP link with environment variable fallback
 const httpLink = createHttpLink({
@@ -57,17 +56,15 @@ function App(): JSX.Element {
 
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<SearchBooks />} />
-          <Route path="/saved" element={<SavedBooks />} />
-          <Route
-            path="*"
-            element={<h1 className="display-2">404 - Page Not Found</h1>}
-          />
-        </Routes>
-      </Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<SearchBooks />} />
+        <Route path="/saved" element={<SavedBooks />} />
+        <Route
+          path="*"
+          element={<h1 className="display-2">404 - Page Not Found</h1>}
+        />
+      </Routes>
     </ApolloProvider>
   );
 }
