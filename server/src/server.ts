@@ -44,7 +44,7 @@ async function startServer() {
   app.use(express.json());
 
   // Correct static file path for deployed app
-  const clientBuildPath = path.resolve(__dirname, './dist/client');
+  const clientBuildPath = path.resolve(__dirname, '../client');
   app.use(
     express.static(clientBuildPath, {
       setHeaders: (res, filePath) => {

@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ✅ Corrected client build path (move up one level from server/dist)
-const clientBuildPath = path.resolve(__dirname, '../../../dist/client');
+const clientBuildPath = path.resolve(__dirname, '../client');
 
 // Serve static files from the React build
 router.use(express.static(clientBuildPath));
